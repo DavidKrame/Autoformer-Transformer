@@ -212,7 +212,9 @@ class TokenEmbedding(nn.Module):
             self.c_in = c_in
             self.query = nn.Linear(c_in, c_in)
             self.key = nn.Linear(c_in, c_in)
-            self.tokenConv = nn.Conv1d(in_channels=c_in, out_channels=d_model, kernel_size=(3,), padding = (1,), padding_mode ='circular')
+            # self.tokenConv = nn.Conv1d(in_channels=c_in, out_channels=d_model, kernel_size=(3,), padding = (1,), padding_mode ='circular')
+            print(d_model)
+            self.tokenConv = nn.Conv1d(in_channels=c_in, out_channels=d_model,kernel_size=(3,), padding=padding, padding_mode='circular', bias=False)
             for m in self.modules():
                 if isinstance(m, nn.Conv1d):
                     nn.init.kaiming_normal_(m.weight,mode='fan_in',nonlinearity='leaky_relu')
@@ -220,6 +222,7 @@ class TokenEmbedding(nn.Module):
     def forward(self, x):
         if self.c_in ==1:
             x = torch.cat([x, x[:,:,-1:]], dim=-1)
+        print(x.shape)
         query = self.query(x)
         key = self.key(x)
         x1 =  torch.fft.rfft(query.contiguous())
@@ -340,8 +343,8 @@ class seasonality_embedding(nn.Module):
     def forward(x, order):
         x = x
 
-class DataEmbedding(nn.Module):
-    def __init__(self, length, c_in, d_model, embed_type='fixed', freq='h', dropout=0.1):
+class DataEmbedding(nn.Module) :
+    def __init__(self, c_in, d_model, embed_type='fixed', freq='h', dropout=0.1):
         super(DataEmbedding, self).__init__()
 
         self.value_embedding = TokenEmbedding(c_in=c_in, d_model=d_model)

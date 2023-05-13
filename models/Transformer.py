@@ -11,6 +11,7 @@ class Model(nn.Module):
     """
     Vanilla Transformer with O(L^2) complexity
     """
+
     def __init__(self, configs):
         super(Model, self).__init__()
         self.pred_len = configs.pred_len
@@ -41,10 +42,12 @@ class Model(nn.Module):
             [
                 DecoderLayer(
                     AttentionLayer(
-                        FullAttention(True, configs.factor, attention_dropout=configs.dropout, output_attention=False),
+                        FullAttention(
+                            True, configs.factor, attention_dropout=configs.dropout, output_attention=False),
                         configs.d_model, configs.n_heads),
                     AttentionLayer(
-                        FullAttention(False, configs.factor, attention_dropout=configs.dropout, output_attention=False),
+                        FullAttention(
+                            False, configs.factor, attention_dropout=configs.dropout, output_attention=False),
                         configs.d_model, configs.n_heads),
                     configs.d_model,
                     configs.d_ff,
@@ -64,7 +67,8 @@ class Model(nn.Module):
         enc_out, attns = self.encoder(enc_out, attn_mask=enc_self_mask)
 
         dec_out = self.dec_embedding(x_dec, x_mark_dec)
-        dec_out = self.decoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask)
+        dec_out = self.decoder(
+            dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask)
 
         if self.output_attention:
             return dec_out[:, -self.pred_len:, :], attns
