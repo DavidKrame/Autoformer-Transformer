@@ -32,13 +32,7 @@ Inspired by the stochastic process theory, we design the Auto-Correlation mechan
 <b>Figure 2.</b> Auto-Correlation mechansim.
 </p>
 
-## Get 
-
-Use simply this for training :  
-```bash
-python -u run.py  --data ETTh1 --root_path ./data/ETTh1/ --data_path ETTh1.csv --model Transformer --is_training 1 --model_id test
-```
-
+## Get Started
 
 1. Install Python 3.6, PyTorch 1.9.0.
 2. Download data. You can obtain all the six benchmarks from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/e1ccfff39ad541908bae/) or [Google Drive](https://drive.google.com/drive/folders/1ZOYpTUa82_jCcxIdTmyr0LXQfvaM9vIy?usp=sharing). **All the datasets are well pre-processed** and can be used easily.
@@ -52,7 +46,7 @@ bash ./scripts/Traffic_script/Autoformer.sh
 bash ./scripts/Weather_script/Autoformer.sh
 bash ./scripts/ILI_script/Autoformer.sh
 ```
-You can
+
 4. Special-designed implementation
 
 - **Speedup Auto-Correlation:** We built the Auto-Correlation mechanism as a batch-normalization-style block to make it more memory-access friendly. See the [paper](https://arxiv.org/abs/2106.13008) for details.
